@@ -71,3 +71,9 @@ export default defineConfig([
   },
 ])
 ```
+
+To deploy:
+
+```
+npm run deploy
+```
