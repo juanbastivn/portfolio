@@ -1,0 +1,12 @@
+/* SectionButton.module.css */
+.button {
+  display: flex;
+  backdrop-filter: blur(10px);
+  background-color: #ffffff11;
+  box-shadow: 0 5px 10px #00000099;
+  gap: 20px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  flex-direction: row;
+}

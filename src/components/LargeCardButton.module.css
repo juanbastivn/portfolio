@@ -1,0 +1,21 @@
+/* LargeCardButton.module.css */
+.button {
+  display: flex;
+  backdrop-filter: blur(10px);
+  background-color: #ffffff11;
+  box-shadow: 0 5px 10px #00000099, 0 0 8px #ffffff99;
+  border: 2px solid #ffffff99;
+  border-radius: 12px;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 1.5rem;
+  width: 240px;
+  height: 240px;
+}
+
+.icon {
+  width: 140px;
+  height: 140px;
+  align-self: center;
+}

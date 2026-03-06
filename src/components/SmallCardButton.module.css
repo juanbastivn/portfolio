@@ -1,0 +1,13 @@
+/* SmallCardButton.module.css */
+.button {
+  display: flex;
+  backdrop-filter: blur(10px);
+  background-color: #ffffff11;
+  box-shadow: 0 5px 10px #00000099;
+  justify-content: center;
+}
+
+.icon {
+  width: 72px;
+  height: 72px;
+}

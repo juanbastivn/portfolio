@@ -1,5 +1,19 @@
+import { useState, useEffect } from 'react'
 import underConstructionGif from './assets/under_construcion.gif'
 import XMBWaveBackground from './components/XMBWaveBackground'
+import SectionButton from './components/SectionButton'
+import iconWorld from './assets/icon_world.png'
+import iconMedia from './assets/icon_media.png'
+import iconPeople from './assets/icon_people.png'
+import iconSw from './assets/icon_sw.png'
+import iconGame from './assets/icon_game.png'
+import iconCircle from './assets/icon_circle.png'
+
+import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv   } from "react-icons/tb";
+
+import SmallCardButton from './components/SmallCardButton'
+import LargeCardButton from './components/LargeCardButton'
+import RoundedCard from './components/RoundedCard'
 import './App.css'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -12,6 +26,17 @@ const LIGHT_MODE        = false      // true = invert colours for a light bg
 // ─────────────────────────────────────────────────────────────────────────────
 
 function App() {
+  const [currentTime, setCurrentTime] = useState(() =>
+    new Date().toLocaleTimeString('en-GB', { hour12: false })
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('es-CL', { hour12: false }));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <XMBWaveBackground
@@ -21,6 +46,54 @@ function App() {
         lightMode={LIGHT_MODE}
       />
 
+      <div className="content">
+        <div className="card left-section">
+          
+          <img className='profile-pic' src={iconWorld} alt="Profile Picture" />
+          <p className='text-m'>Welcome to My Portfolio</p>
+
+          <SectionButton icon={TbHome} label="Home" />
+          <SectionButton icon={TbBrandLinkedin} label="LinkedIn" />
+          <SectionButton icon={TbBrandGithub} label="GitHub" />
+          <SectionButton icon={TbFileCv} label="CV" />
+
+          <div className="separator" />
+
+          <div className="small-card-buttons">
+            <SmallCardButton image={iconPeople} />
+            <SmallCardButton image={iconGame} />
+          </div>
+
+        </div>
+
+        <div className="card right-section">
+          <div className="card-header">
+            <RoundedCard label={currentTime} />
+            <p className='text-xl'>Welcome</p>
+            <RoundedCard label="Score: 23" />
+          </div>
+
+          <div className="separator" />
+
+          <div className="card-text-content">
+            <img className='card-image' src={iconCircle} alt="Card Image" />
+            <div className='text-container glow-border'>
+              <p className='text-e'>About Me</p>
+              <p className='text-m'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius. Sed at felis a enim efficitur commodo. Curabitur ac ligula sed nisl convallis tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+
+          <div className="separator" />
+
+          <div className="large-card-buttons">
+             <LargeCardButton image={iconSw} label="Software" />
+             <LargeCardButton image={iconMedia} label="Media" />
+          </div>
+
+          <div className="separator" />
+ 
+        </div>
+      </div>
       {/* <div className="App">
         <h1>Under Construction</h1>
         <img src={underConstructionGif} alt="Under Construction" />
