@@ -1,12 +1,14 @@
 // GamesView.tsx
 import { useState, useRef, useEffect } from 'react'
+import { run as runTetris } from '../games/tetris'
 import styles from './GamesView.module.css'
+import RoundedCard from './RoundedCard'
 
 export interface Game {
   id: string
   label: string
   // Receives canvas + 2D context. Return a cleanup fn (stop loops, remove listeners).
-  run: (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => () => void
+  run: (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, onScore?: (score: number) => void) => () => void
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,26 +16,17 @@ export interface Game {
 // ─────────────────────────────────────────────────────────────────────────────
 const GAMES: Game[] = [
   {
-    id: 'demo',
-    label: 'Demo',
-    run: (_canvas, ctx) => {
-      ctx.clearRect(0, 0, _canvas.width, _canvas.height)
-      ctx.fillStyle = '#75ffba'
-      ctx.font = 'bold 1.8rem monospace'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.shadowColor = '#43ffa1'
-      ctx.shadowBlur = 18
-      ctx.fillText('Tu juego aquí', _canvas.width / 2, _canvas.height / 2)
-      return () => {}
-    },
+    id: 'tetris',
+    label: 'Tetris',
+    run: runTetris
   },
   // { id: 'snake', label: 'Snake', run: (canvas, ctx) => { /* ... */ return () => {} } },
 ]
 // ─────────────────────────────────────────────────────────────────────────────
 
-function GamesView({ onBack }: { onBack: () => void }) {
+function GamesView({ onBack, onScore, initialScore = 0 }: { onBack: () => void, onScore?: (score: number) => void, initialScore?: number }) {
   const [selectedGame, setSelectedGame] = useState<Game>(GAMES[0])
+  const [score, setScore] = useState(initialScore)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -42,15 +35,19 @@ function GamesView({ onBack }: { onBack: () => void }) {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    const cleanup = selectedGame.run(canvas, ctx)
+    const cleanup = selectedGame.run(canvas, ctx, (s) => {
+      setScore(s)
+      onScore?.(s)
+    })
     return cleanup
   }, [selectedGame])
 
   return (
     <div className={styles.games}>
       <div className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack}>← Back</button>
-        <h2 className={styles.title}>Games</h2>
+        <button className={`${styles.gameBtn} glow-border`} onClick={onBack}>← Back</button>
+        <p className={"text-xl"}>Games</p>
+        <RoundedCard label={`Score: ${score}`} />
       </div>
       <div className={styles.separator} />
       <div className={styles.selector}>
@@ -64,6 +61,7 @@ function GamesView({ onBack }: { onBack: () => void }) {
           </button>
         ))}
       </div>
+      <div className={styles.separator} />
       <div className={styles.canvasWrapper}>
         <canvas ref={canvasRef} className={styles.canvas} width={800} height={460} />
       </div>
