@@ -7,6 +7,13 @@
   justify-content: center;
 }
 
+.button:hover {
+  background-color: #ffffff22;
+  color: #75ffba;
+  border-color: #75ffba;
+  box-shadow: 0 0 8px #75ffba66;
+}
+
 .icon {
   width: 72px;
   height: 72px;

@@ -14,6 +14,18 @@
   height: 240px;
 }
 
+.button:hover {
+  background-color: #ffffff22;
+  color: #75ffba;
+  border-color: #75ffba;
+  box-shadow: 0 0 8px #75ffba66;
+}
+
+.button:hover span {
+  color: #43ffa1;
+  border-color: #43ffa1;
+}
+
 .icon {
   width: 140px;
   height: 140px;

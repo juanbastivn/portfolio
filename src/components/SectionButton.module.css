@@ -1,5 +1,7 @@
 /* SectionButton.module.css */
 .button {
+  --icon-color: #ffffff99;
+  --icon-shadow: drop-shadow(0 5px 5px #00000099);
   display: flex;
   backdrop-filter: blur(10px);
   background-color: #ffffff11;
@@ -9,4 +11,19 @@
   margin-top: 1.5rem;
   text-align: center;
   flex-direction: row;
+  align-items: center;
 }
+
+.button:hover {
+  --icon-color: #43ffa1;
+  background-color: #ffffff22;
+  color: #75ffba;
+  border-color: #75ffba;
+  box-shadow: 0 0 8px #75ffba66;
+}
+
+.button:hover span {
+  color: #43ffa1;
+  border-color: #43ffa1;
+}
+

@@ -11,6 +11,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  cursor: none;
+}
+
+*, *::before, *::after {
+  cursor: none !important;
 }
 
 a {
@@ -47,6 +53,9 @@ button {
 }
 button:hover {
   border-color: #ffffff;
+}
+button:hover p {
+  color: red;
 }
 button:focus,
 button:focus-visible {
