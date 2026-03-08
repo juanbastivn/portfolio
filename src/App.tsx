@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react'
 import underConstructionGif from './assets/under_construcion.gif'
 import XMBWaveBackground from './components/XMBWaveBackground'
 import SectionButton from './components/SectionButton'
-import iconWorld from './assets/icon_world.png'
 import iconMedia from './assets/icon_media.png'
+import iconFolder from './assets/icon_folder.png'
 import iconMail from './assets/icon_mail.png'
 import iconSw from './assets/icon_sw.png'
 import iconGame from './assets/icon_game.png'
 import iconCircle from './assets/icon_circle.png'
+import profilePic from './assets/profile_pic.jpg'
 
 import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv   } from "react-icons/tb";
 
@@ -17,6 +18,7 @@ import RoundedCard from './components/RoundedCard'
 import BlogView from './components/BlogView'
 import GamesView from './components/GamesView'
 import CustomCursor from './components/CustomCursor'
+import cvPdf from './assets/cv_es.pdf'
 import './App.css'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -34,7 +36,7 @@ const LIGHT_MODE        = false      // true = invert colours for a light bg
 const LINKS = {
   linkedin: 'https://linkedin.com/in/juan-bastian/',
   github:   'https://github.com/juanbastivn',
-  cv:       '/cv_es.pdf',
+  cv:       cvPdf,
   email:    'jbastian@gmail.com',
 }
 // ─────────────────────────────────────────────────────────────────────────────
@@ -67,10 +69,10 @@ function App() {
       <div className="content">
         <div className="card left-section">
           
-          <img className='profile-pic' src={iconWorld} alt="Profile Picture" />
-          <p className='text-m'>Welcome to My Portfolio</p>
+          <img className='profile-pic glow-border' src={profilePic} alt="Juan-Bastián" />
+          <p className='text-l'>Juan-Bastián</p>
 
-          <SectionButton icon={TbHome} label="Home" onClick={() => setView('home')} />
+          <SectionButton icon={TbHome} label="Inicio" onClick={() => setView('home')} />
           <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
           <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
           <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
@@ -89,8 +91,8 @@ function App() {
             <div key="home" className="home-view">
               <div className="card-header">
                 <RoundedCard label={currentTime} />
-                <p className='text-xl'>Welcome</p>
-                <RoundedCard label={`Score: ${gameScore}`} />
+                <p className='text-xl'>Bienvenido</p>
+                <RoundedCard label={`Puntaje: ${gameScore}`} />
               </div>
 
               <div className="separator" />
@@ -98,8 +100,8 @@ function App() {
               <div className="card-text-content">
                 <img className='card-image' src={iconCircle} alt="Card Image" />
                 <div className='text-container glow-border'>
-                  <p className='text-e'>About Me</p>
-                  <p className='text-m'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius. Sed at felis a enim efficitur commodo. Curabitur ac ligula sed nisl convallis tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <p className='text-e'>Sobre mí</p>
+                  <p className='text-m'>Ingeniero Civil en Computación (U. de Chile), especialista en desarrollo Fullstack y Mobile. Trabajo con <strong>TypeScript</strong> (React Native, Angular, NestJS) y <strong>Flutter</strong>, liderando productos activos en App Store y Google Play. Experiencia en integración IoT, arquitecturas escalables y gestión de equipos técnicos.</p>
                 </div>
               </div>
 
@@ -107,7 +109,7 @@ function App() {
 
               <div className="large-card-buttons">
                 <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
-                <LargeCardButton image={iconMedia} label="Media" onClick={() => setView('media')} />
+                <LargeCardButton image={iconFolder} label="En desarrollo..." onClick={() => null} />
               </div>
               <div className="separator" />
 

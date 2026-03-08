@@ -30,6 +30,7 @@
   height: 800px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .right-section {
@@ -59,7 +60,7 @@
 }
 
 .text-l {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #ffffffcc;
   font-weight: 500;
   text-shadow: 0 5px 5px #00000099;
@@ -88,9 +89,17 @@
 }
 
 .profile-pic {
-  width: 180px;
-  height: 180px;
+  width: 160px;
+  height: 160px;
   align-self: center;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: box-shadow 0.3s;
+}
+
+.profile-pic:hover {
+  border-color: #75ffba;
+  box-shadow: 0 0 0 8px #75ffba33, 0 0 36px #75ffba99;
 }
 
 .card-header {
