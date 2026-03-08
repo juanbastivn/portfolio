@@ -54,9 +54,6 @@ button {
 button:hover {
   border-color: #ffffff;
 }
-button:hover p {
-  color: red;
-}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

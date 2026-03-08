@@ -1,6 +1,6 @@
 # Media
 
-A collection of creative work — video production, motion graphics, photography and sound design.
+Colección de trabajos creativos — producción de video, motion graphics, fotografía y diseño de sonido.
 
 ---
 
@@ -8,25 +8,25 @@ A collection of creative work — video production, motion graphics, photography
 
 ---
 
-## Video Production
+## Producción de Video
 
-### Short Films
+### Cortometrajes
 
-Projects focused on narrative storytelling, colour grading and post-production.
+Proyectos enfocados en narrativa visual, corrección de color y postproducción.
 
-- **Editing**: Adobe Premiere Pro, DaVinci Resolve
+- **Edición**: Adobe Premiere Pro, DaVinci Resolve
 - **VFX**: After Effects, Blender
-- **Sound**: Audition, Reaper
+- **Sonido**: Audition, Reaper
 
 ---
 
-## Photography
+## Fotografía
 
-![Media work](/assets/icon_media.png)
+![Trabajo fotográfico](/assets/icon_media.png)
 
-Landscape and urban photography. Shot on Sony A7 III.
+Fotografía de paisaje y urbana.
 
-> *"Light is the raw material of photography."*
+> *"La luz es la materia prima de la fotografía."*
 
 ---
 

@@ -45,9 +45,9 @@ function GamesView({ onBack, onScore, initialScore = 0 }: { onBack: () => void, 
   return (
     <div className={styles.games}>
       <div className={styles.header}>
-        <button className={`${styles.gameBtn} glow-border`} onClick={onBack}>← Back</button>
-        <p className={"text-xl"}>Games</p>
-        <RoundedCard label={`Score: ${score}`} />
+        <button className={`${styles.gameBtn} glow-border`} onClick={onBack}>← Volver</button>
+        <p className={"text-xl"}>Juegos</p>
+        <RoundedCard label={`Puntaje: ${score}`} />
       </div>
       <div className={styles.separator} />
       <div className={styles.selector}>

@@ -138,10 +138,10 @@ export function run(
       ctx.shadowBlur = 0
       ctx.fillStyle = 'rgba(255,255,255,0.8)'
       ctx.font = '1rem monospace'
-      ctx.fillText(`Score: ${score}`, W / 2, H / 2 + 16)
+      ctx.fillText(`Puntaje: ${score}`, W / 2, H / 2 + 16)
       ctx.fillStyle = 'rgba(117, 255, 186, 0.6)'
       ctx.font = '0.85rem monospace'
-      ctx.fillText('Press R to restart', W / 2, H / 2 + 44)
+      ctx.fillText('Presiona R para reiniciar', W / 2, H / 2 + 44)
     }
   }
 
