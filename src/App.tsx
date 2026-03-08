@@ -4,7 +4,7 @@ import XMBWaveBackground from './components/XMBWaveBackground'
 import SectionButton from './components/SectionButton'
 import iconWorld from './assets/icon_world.png'
 import iconMedia from './assets/icon_media.png'
-import iconPeople from './assets/icon_people.png'
+import iconMail from './assets/icon_mail.png'
 import iconSw from './assets/icon_sw.png'
 import iconGame from './assets/icon_game.png'
 import iconCircle from './assets/icon_circle.png'
@@ -14,6 +14,9 @@ import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv   } from "react-icons/
 import SmallCardButton from './components/SmallCardButton'
 import LargeCardButton from './components/LargeCardButton'
 import RoundedCard from './components/RoundedCard'
+import BlogView from './components/BlogView'
+import GamesView from './components/GamesView'
+import CustomCursor from './components/CustomCursor'
 import './App.css'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -25,10 +28,23 @@ const BACKGROUND_COLOR  = '#002412'  // page background colour
 const LIGHT_MODE        = false      // true = invert colours for a light bg
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Links — update these with your actual URLs / email.
+// ─────────────────────────────────────────────────────────────────────────────
+const LINKS = {
+  linkedin: 'https://linkedin.com/in/juan-bastian/',
+  github:   'https://github.com/juanbastivn',
+  cv:       '/cv_es.pdf',
+  email:    'jbastian@gmail.com',
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function App() {
   const [currentTime, setCurrentTime] = useState(() =>
     new Date().toLocaleTimeString('en-GB', { hour12: false })
   );
+
+  const [view, setView] = useState<'home' | 'software' | 'media' | 'games'>('home');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,6 +55,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <XMBWaveBackground
         waveColor={WAVE_COLOR}
         speedMultiplier={SPEED_MULTIPLIER}
@@ -52,46 +69,53 @@ function App() {
           <img className='profile-pic' src={iconWorld} alt="Profile Picture" />
           <p className='text-m'>Welcome to My Portfolio</p>
 
-          <SectionButton icon={TbHome} label="Home" />
-          <SectionButton icon={TbBrandLinkedin} label="LinkedIn" />
-          <SectionButton icon={TbBrandGithub} label="GitHub" />
-          <SectionButton icon={TbFileCv} label="CV" />
+          <SectionButton icon={TbHome} label="Home" onClick={() => setView('home')} />
+          <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
+          <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
+          <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
 
           <div className="separator" />
 
           <div className="small-card-buttons">
-            <SmallCardButton image={iconPeople} />
-            <SmallCardButton image={iconGame} />
+            <SmallCardButton image={iconMail} onClick={() => window.open(`mailto:${LINKS.email}`)} />
+            <SmallCardButton image={iconGame} onClick={() => setView('games')} />
           </div>
 
         </div>
 
         <div className="card right-section">
-          <div className="card-header">
-            <RoundedCard label={currentTime} />
-            <p className='text-xl'>Welcome</p>
-            <RoundedCard label="Score: 23" />
-          </div>
+          {view === 'home' ? (
+            <div key="home" className="home-view">
+              <div className="card-header">
+                <RoundedCard label={currentTime} />
+                <p className='text-xl'>Welcome</p>
+                <RoundedCard label="Score: 23" />
+              </div>
 
-          <div className="separator" />
+              <div className="separator" />
 
-          <div className="card-text-content">
-            <img className='card-image' src={iconCircle} alt="Card Image" />
-            <div className='text-container glow-border'>
-              <p className='text-e'>About Me</p>
-              <p className='text-m'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius. Sed at felis a enim efficitur commodo. Curabitur ac ligula sed nisl convallis tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <div className="card-text-content">
+                <img className='card-image' src={iconCircle} alt="Card Image" />
+                <div className='text-container glow-border'>
+                  <p className='text-e'>About Me</p>
+                  <p className='text-m'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius. Sed at felis a enim efficitur commodo. Curabitur ac ligula sed nisl convallis tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+
+              <div className="separator" />
+
+              <div className="large-card-buttons">
+                <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
+                <LargeCardButton image={iconMedia} label="Media" onClick={() => setView('media')} />
+              </div>
+              <div className="separator" />
+
             </div>
-          </div>
-
-          <div className="separator" />
-
-          <div className="large-card-buttons">
-             <LargeCardButton image={iconSw} label="Software" />
-             <LargeCardButton image={iconMedia} label="Media" />
-          </div>
-
-          <div className="separator" />
- 
+          ) : view === 'games' ? (
+            <GamesView onBack={() => setView('home')} />
+          ) : (
+            <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} />
+          )}
         </div>
       </div>
       {/* <div className="App">
