@@ -45,6 +45,7 @@ function App() {
   );
 
   const [view, setView] = useState<'home' | 'software' | 'media' | 'games'>('home');
+  const [gameScore, setGameScore] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -89,7 +90,7 @@ function App() {
               <div className="card-header">
                 <RoundedCard label={currentTime} />
                 <p className='text-xl'>Welcome</p>
-                <RoundedCard label="Score: 23" />
+                <RoundedCard label={`Score: ${gameScore}`} />
               </div>
 
               <div className="separator" />
@@ -112,7 +113,7 @@ function App() {
 
             </div>
           ) : view === 'games' ? (
-            <GamesView onBack={() => setView('home')} />
+            <GamesView onBack={() => setView('home')} onScore={setGameScore} initialScore={gameScore} />
           ) : (
             <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} />
           )}
