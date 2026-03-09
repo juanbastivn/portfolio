@@ -8,23 +8,25 @@ import styles from './BlogView.module.css'
 // ── Asset map ─────────────────────────────────────────────────────────────────
 // To use an image in a .md file write: ![alt](/assets/icon_name.png)
 // Then add that same key and its import below.
-import iconCircle  from '../assets/icon_circle.png'
-import iconGame    from '../assets/icon_game.png'
-import iconMedia   from '../assets/icon_media.png'
-import iconPeople  from '../assets/icon_people.png'
-import iconSw      from '../assets/icon_sw.png'
-import iconWorld   from '../assets/icon_world.png'
+import swBaudata1   from '../assets/sw_baudata1.png'
+import swBaudata2   from '../assets/sw_baudata2.png'
+import swNeuronat from '../assets/sw_neuronat.png'
+import swDgenius1   from '../assets/sw_dgenius1.png'
+import swDgenius2  from '../assets/sw_dgenius2.png'
+import swDgenius3  from '../assets/sw_dgenius3.png'
+import swBaches   from '../assets/sw_baches.png'
 
 import softwareMd from '../content/software.md?raw'
 import mediaMd from '../content/media.md?raw'
 
 const assetMap: Record<string, string> = {
-  '/assets/icon_circle.png':  iconCircle,
-  '/assets/icon_game.png':    iconGame,
-  '/assets/icon_media.png':   iconMedia,
-  '/assets/icon_people.png':  iconPeople,
-  '/assets/icon_sw.png':      iconSw,
-  '/assets/icon_world.png':   iconWorld,
+  '/assets/sw_baudata1.png':   swBaudata1,
+  '/assets/sw_baudata2.png':   swBaudata2,
+  '/assets/sw_neuronat.png': swNeuronat,
+  '/assets/sw_dgenius1.png':   swDgenius1,
+  '/assets/sw_dgenius2.png':   swDgenius2,
+  '/assets/sw_dgenius3.png':   swDgenius3,
+  '/assets/sw_baches.png':   swBaches,
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -33,14 +35,14 @@ const mdFiles: Record<string, string> = {
   media: mediaMd,
 }
 
-function BlogView({ section, onBack }: { section: 'software' | 'media'; onBack: () => void }) {
+function BlogView({ section, onBack, lang = 'es' }: { section: 'software' | 'media'; onBack: () => void; lang?: 'es' | 'en' }) {
   const content = mdFiles[section] ?? ''
 
   return (
     <div className={styles.blog}>
       <div className={`card-header ${styles.header}`}>
         <button className={`glow-border ${styles.backBtn}`} onClick={onBack}>
-          ← Volver
+          {lang === 'en' ? '← Back' : '← Volver'}
         </button>
         <p className={`text-xl ${styles.headerTitle}`}>
           {section === 'software' ? 'Software' : 'Media'}
