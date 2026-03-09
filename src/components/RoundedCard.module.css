@@ -2,7 +2,10 @@
 .card {
   backdrop-filter: blur(10px);
   background-color: #ffffff11;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  padding: 0.4rem 1.2rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 9999px;
 }
