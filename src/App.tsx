@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import underConstructionGif from './assets/under_construcion.gif'
 import XMBWaveBackground from './components/XMBWaveBackground'
 import SectionButton from './components/SectionButton'
-import iconMedia from './assets/icon_media.png'
 import iconFolder from './assets/icon_folder.png'
 import iconMail from './assets/icon_mail.png'
 import iconSw from './assets/icon_sw.png'
@@ -10,7 +8,7 @@ import iconGame from './assets/icon_game.png'
 import iconCircle from './assets/icon_circle.png'
 import profilePic from './assets/profile_pic.jpg'
 
-import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv, TbLanguage, TbClock, TbDeviceGamepad } from "react-icons/tb";
+import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv, TbClock, TbDeviceGamepad } from "react-icons/tb";
 
 import SmallCardButton from './components/SmallCardButton'
 import LargeCardButton from './components/LargeCardButton'
@@ -147,10 +145,6 @@ function App() {
           )}
         </div>
       </div>
-      {/* <div className="App">
-        <h1>Under Construction</h1>
-        <img src={underConstructionGif} alt="Under Construction" />
-      </div> */}
     </>
   )
 }
