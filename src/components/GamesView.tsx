@@ -24,7 +24,7 @@ const GAMES: Game[] = [
 ]
 // ─────────────────────────────────────────────────────────────────────────────
 
-function GamesView({ onBack, onScore, initialScore = 0 }: { onBack: () => void, onScore?: (score: number) => void, initialScore?: number }) {
+function GamesView({ onBack, onScore, initialScore = 0, lang = 'es' }: { onBack: () => void, onScore?: (score: number) => void, initialScore?: number, lang?: 'es' | 'en' }) {
   const [selectedGame, setSelectedGame] = useState<Game>(GAMES[0])
   const [score, setScore] = useState(initialScore)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -45,9 +45,9 @@ function GamesView({ onBack, onScore, initialScore = 0 }: { onBack: () => void, 
   return (
     <div className={styles.games}>
       <div className={styles.header}>
-        <button className={`${styles.gameBtn} glow-border`} onClick={onBack}>← Volver</button>
-        <p className={"text-xl"}>Juegos</p>
-        <RoundedCard label={`Puntaje: ${score}`} />
+        <button className={`${styles.gameBtn} glow-border`} onClick={onBack}>{lang === 'en' ? '← Back' : '← Volver'}</button>
+        <p className={"text-xl"}>{lang === 'en' ? 'Games' : 'Juegos'}</p>
+        <RoundedCard label={`${lang === 'en' ? 'Score' : 'Puntaje'}: ${score}`} />
       </div>
       <div className={styles.separator} />
       <div className={styles.selector}>
