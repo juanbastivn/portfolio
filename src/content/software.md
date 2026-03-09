@@ -1,12 +1,11 @@
 
-# Software
 
 Aquí documento los proyectos y experiencias profesionales que he desarrollado a lo largo de mi carrera como Ingeniero Civil en Computación.
 
 ---
 
 ## BauData — Encargado de Software y TI
-*2024 – Actualidad*
+*2024 – 2026*
 
 **BauData** es una plataforma SaaS de inteligencia de negocios orientada a la industria de la construcción en Chile. Lidera el seguimiento de obras, permisos de edificación y gestión de cartera de clientes para más de **1.000 usuarios activos**.
 
@@ -17,12 +16,14 @@ Desarrollé también la aplicación móvil en **React Native** con visualizació
 
 **Stack:** TypeScript, React Native, NestJS, MySQL, AWS (EC2, S3, RDS), Selenium, Git
 
-![BauData](/assets/icon_sw.png)
+![BauData](/assets/sw_baudata1.png)
+![BauData](/assets/sw_baudata2.png)
+
 
 ---
 
 ## Proyecto Peuma — Facultad de Medicina, Universidad de Chile
-*2025*
+*2026*
 
 **Peuma** es una aplicación clínica crítica desarrollada para la detección de **delirio post-operatorio** en pacientes de quirófano. El proyecto, en colaboración con médicos e investigadores de la Facultad de Medicina, requirió los más altos estándares de seguridad y confiabilidad.
 
@@ -30,7 +31,7 @@ Desarrollé la aplicación en **Flutter** con integración **Bluetooth/IoT** par
 
 **Stack:** Flutter (Dart), Bluetooth LE, Raspberry Pi, Linux Server, iOS/Android
 
-![Peuma](/assets/icon_sw.png)
+<!-- ![Peuma](/assets/icon_sw.png) -->
 
 ---
 
@@ -43,7 +44,7 @@ Rediseñé la arquitectura de software desde cero, el sistema de almacenamiento 
 
 **Stack:** Godot (GDScript), diseño de arquitectura, testing con usuarios reales
 
-![Neuronat](/assets/icon_sw.png)
+![Neuronat](/assets/sw_neuronat.png)
 
 ---
 
@@ -57,7 +58,24 @@ Construí la plataforma web con **Angular**, la aplicación móvil multiplatafor
 
 **Stack:** Angular, React Native, NestJS, TypeScript, iOS/Android deployment
 
-![Dgenius](/assets/icon_sw.png)
+![Dgenius](/assets/sw_dgenius1.png)
+![Dgenius](/assets/sw_dgenius2.png)
+![Dgenius](/assets/sw_dgenius3.png)
+
+
+
+---
+
+## Detección de Baches — Proyecto Personal
+*2025*
+
+**Detección de Baches** es un sistema de visión computacional end-to-end para la **identificación automática de baches** en vías urbanas a partir de video capturado desde vehículos en movimiento.
+
+Desarrollé una aplicación web en **React** desplegada en producción con **Netlify**, una API en **FastAPI (Python)** para la gestión y procesamiento de video, y un modelo predictivo basado en **YOLOv8** entrenado para detectar y clasificar baches en tiempo real. El sistema recibe grabaciones de cámaras vehiculares, las procesa automáticamente y devuelve los resultados georreferenciados con anotaciones visuales. Puedes visitarla aquí: [baches.netlify.app](https://baches.netlify.app/)
+
+**Stack:** React, FastAPI, Python, YOLOv8, Netlify
+
+![Baches](/assets/sw_baches.png)
 
 ---
 
