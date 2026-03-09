@@ -4,14 +4,14 @@ Aquí documento los proyectos y experiencias profesionales que he desarrollado a
 
 ---
 
-## BauData — Encargado de Software y TI
+## BauData — Encargado de Software
 *2024 – 2026*
 
-**BauData** es una plataforma SaaS de inteligencia de negocios orientada a la industria de la construcción en Chile. Lidera el seguimiento de obras, permisos de edificación y gestión de cartera de clientes para más de **1.000 usuarios activos**.
+**BauData** es una plataforma SaaS de inteligencia de negocios orientada a la industria de la construcción en Chile, con seguimiento de obras, permisos de edificación y gestión de cartera.
 
-Como Encargado de Software y TI, lideré el desarrollo completo de la plataforma: diseñé la arquitectura de base de datos en **MySQL** optimizada para consultas geo-espaciales y de alta concurrencia, construí la API REST en **NestJS**, e implementé pipelines de **Web Scraping** con Selenium para la ingesta automatizada de permisos de edificación y datos de contacto desde registros públicos.
+Lideré el desarrollo Fullstack de la plataforma: construí la **API REST en NestJS**, desarrollé nuevas funcionalidades sobre la base de datos **MySQL** con consultas geo-espaciales, e implementé la **aplicación móvil en React Native** con mapas interactivos, visualización de proyectos, gestión de clientes y **notificaciones push** para alertas en tiempo real. Participé además en pipelines de **Web Scraping** con Selenium para ingesta automatizada de datos desde registros públicos.
 
-Desarrollé también la aplicación móvil en **React Native** con visualización de proyectos, mapas interactivos y gestión de clientes, disponible en:
+La app móvil está disponible en:
 [App Store](https://apps.apple.com/cl/app/baudata/id6748763426) • [Google Play](https://play.google.com/store/apps/details?id=com.baudata.ReactNative&hl=es_CL)
 
 **Stack:** TypeScript, React Native, NestJS, MySQL, AWS (EC2, S3, RDS), Selenium, Git
