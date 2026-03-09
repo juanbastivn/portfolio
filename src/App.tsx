@@ -10,7 +10,7 @@ import iconGame from './assets/icon_game.png'
 import iconCircle from './assets/icon_circle.png'
 import profilePic from './assets/profile_pic.jpg'
 
-import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv   } from "react-icons/tb";
+import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv, TbLanguage, TbClock, TbDeviceGamepad } from "react-icons/tb";
 
 import SmallCardButton from './components/SmallCardButton'
 import LargeCardButton from './components/LargeCardButton'
@@ -41,6 +41,27 @@ const LINKS = {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Translations — edit strings here to localise the UI.
+// ─────────────────────────────────────────────────────────────────────────────
+type Lang = 'es' | 'en'
+const TRANSLATIONS: Record<Lang, {
+  welcome: string; score: string; aboutTitle: string; aboutText: string
+  home: string; inDev: string; backBtn: string; games: string
+}> = {
+  es: {
+    welcome: 'Bienvenido', score: 'Puntaje', aboutTitle: 'Sobre mí',
+    aboutText: 'Ingeniero Civil en Computación (U. de Chile), desarrollador Fullstack especializado en arquitectura de servicios en producción. Diseño e implemento sistemas completos — desde la base de datos hasta la app móvil o web — con productos activos en App Store y Google Play. Experiencia liderando equipos técnicos y tomando decisiones de arquitectura de extremo a extremo.',
+    home: 'Inicio', inDev: 'Sección en desarrollo...', backBtn: '← Volver', games: 'Juegos',
+  },
+  en: {
+    welcome: 'Welcome', score: 'Score', aboutTitle: 'About me',
+    aboutText: 'Computer Science Engineer (Universidad de Chile), Fullstack developer focused on building and shipping production-ready services. I design complete systems end-to-end — from database to mobile app or web — with active products on the App Store and Google Play. Experienced in leading technical teams and making architecture decisions across the full stack.',
+    home: 'Home', inDev: 'In development...', backBtn: '← Back', games: 'Games',
+  },
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function App() {
   const [currentTime, setCurrentTime] = useState(() =>
     new Date().toLocaleTimeString('en-GB', { hour12: false })
@@ -48,6 +69,8 @@ function App() {
 
   const [view, setView] = useState<'home' | 'software' | 'media' | 'games'>('home');
   const [gameScore, setGameScore] = useState(0);
+  const [lang, setLang] = useState<Lang>('es')
+  const t = TRANSLATIONS[lang]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -72,7 +95,7 @@ function App() {
           <img className='profile-pic glow-border' src={profilePic} alt="Juan-Bastián" />
           <p className='text-l'>Juan-Bastián</p>
 
-          <SectionButton icon={TbHome} label="Inicio" onClick={() => setView('home')} />
+          <SectionButton icon={TbHome} label={t.home} onClick={() => setView('home')} />
           <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
           <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
           <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
@@ -83,6 +106,9 @@ function App() {
             <SmallCardButton image={iconMail} onClick={() => window.open(`mailto:${LINKS.email}`)} />
             <SmallCardButton image={iconGame} onClick={() => setView('games')} />
           </div>
+          <button className="lang-toggle glow-border" onClick={() => setLang(l => l === 'es' ? 'en' : 'es')}>
+            {lang === 'es' ? 'EN' : 'ES'}
+          </button>
 
         </div>
 
@@ -90,9 +116,9 @@ function App() {
           {view === 'home' ? (
             <div key="home" className="home-view">
               <div className="card-header">
-                <RoundedCard label={currentTime} />
-                <p className='text-xl'>Bienvenido</p>
-                <RoundedCard label={`Puntaje: ${gameScore}`} />
+                <RoundedCard label={currentTime} icon={TbClock} />
+                <p className='text-xl'>{t.welcome}</p>
+                <RoundedCard label={`${t.score}: ${gameScore}`} icon={TbDeviceGamepad} />
               </div>
 
               <div className="separator" />
@@ -100,8 +126,8 @@ function App() {
               <div className="card-text-content">
                 <img className='card-image' src={iconCircle} alt="Card Image" />
                 <div className='text-container glow-border'>
-                  <p className='text-e'>Sobre mí</p>
-                  <p className='text-m'>Ingeniero Civil en Computación (U. de Chile), especialista en desarrollo Fullstack y Mobile. Trabajo con <strong>TypeScript</strong> (React Native, Angular, NestJS) y <strong>Flutter</strong>, liderando productos activos en App Store y Google Play. Experiencia en integración IoT, arquitecturas escalables y gestión de equipos técnicos.</p>
+                  <p className='text-e'>{t.aboutTitle}</p>
+                  <p className='text-m'>{t.aboutText}</p>
                 </div>
               </div>
 
@@ -109,15 +135,15 @@ function App() {
 
               <div className="large-card-buttons">
                 <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
-                <LargeCardButton image={iconFolder} label="En desarrollo..." onClick={() => null} />
+                <LargeCardButton image={iconFolder} label={t.inDev} onClick={() => null} />
               </div>
               <div className="separator" />
 
             </div>
           ) : view === 'games' ? (
-            <GamesView onBack={() => setView('home')} onScore={setGameScore} initialScore={gameScore} />
+            <GamesView onBack={() => setView('home')} onScore={setGameScore} initialScore={gameScore} lang={lang} />
           ) : (
-            <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} />
+            <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} lang={lang} />
           )}
         </div>
       </div>

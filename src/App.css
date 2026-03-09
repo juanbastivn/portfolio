@@ -154,6 +154,28 @@
   text-shadow: 0 5px 5px #00000099;
 }
 
+.lang-toggle {
+  background-color: #ffffff11;
+  backdrop-filter: blur(10px);
+  color: #ffffffcc;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 1.1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  margin-top: auto;
+  align-self: center;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.lang-toggle:hover {
+  background-color: #ffffff22;
+  color: #43ffa1;
+  border-color: #75ffba;
+  box-shadow: 0 0 12px #75ffba66;
+}
+
 .home-view {
   height: 100%;
   display: flex;
