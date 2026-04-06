@@ -90,7 +90,7 @@ function App() {
       <div className="content">
         <div className="card left-section">
           
-          <img className='profile-pic glow-border' src={profilePic} alt="Juan-Bastián" />
+          <img className='profile-pic glow-border' src={profilePic} alt="Juan Bastián Espinoza Caimanque - Ingeniero Civil en Computación" />
           <p className='text-l'>Juan-Bastián</p>
 
           <SectionButton icon={TbHome} label={t.home} onClick={() => setView('home')} />
