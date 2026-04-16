@@ -32,3 +32,21 @@
   height: 140px;
   align-self: center;
 }
+
+@media (max-width: 1024px) {
+  .button {
+    width: 100%;
+    height: auto;
+    min-height: 160px;
+    padding: 20px 12px;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+  }
+  .icon {
+    width: 72px;
+    height: 72px;
+  }
+}
+

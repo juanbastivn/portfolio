@@ -180,10 +180,159 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  animation: homeEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes homeEnter {
-  from { transform: translateY(20px); }
-  to   { transform: translateY(0); }
+.home-view > * {
+  opacity: 0;
+  animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
+
+.home-view > *:nth-child(1) { animation-delay: 0ms; }
+.home-view > *:nth-child(2) { animation-delay: 80ms; }
+.home-view > *:nth-child(3) { animation-delay: 160ms; }
+.home-view > *:nth-child(4) { animation-delay: 240ms; }
+.home-view > *:nth-child(5) { animation-delay: 320ms; }
+.home-view > *:nth-child(6) { animation-delay: 400ms; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  Mobile layout  (rendered by MobileView component)                       */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.mobile-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px 20px 32px;
+  box-sizing: border-box;
+  gap: 24px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.mobile-root > * {
+  opacity: 0;
+  animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.mobile-root > *:nth-child(1) { animation-delay: 0ms; }
+.mobile-root > *:nth-child(2) { animation-delay: 60ms; }
+.mobile-root > *:nth-child(3) { animation-delay: 120ms; }
+.mobile-root > *:nth-child(4) { animation-delay: 180ms; }
+.mobile-root > *:nth-child(5) { animation-delay: 240ms; }
+.mobile-root > *:nth-child(6) { animation-delay: 300ms; }
+.mobile-root > *:nth-child(7) { animation-delay: 360ms; }
+
+/* ── Profile header ── */
+.mobile-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.mobile-profile .profile-pic {
+  width: 112px;
+  height: 112px;
+}
+
+.mobile-profile .text-l {
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* ── Nav row — 2-col grid on phones, 4-col on tablet ── */
+.mobile-nav {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .mobile-nav {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.mobile-nav button {
+  min-height: 48px;
+  background-color: rgba(0, 15, 8, 0.32);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.mobile-nav button span {
+  font-size: 0.95rem;
+}
+
+/* ── About card ── */
+.mobile-about {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 15, 8, 0.32);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-about .text-e {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.mobile-about .text-m {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Action buttons — 2 equal columns ── */
+.mobile-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.mobile-actions button {
+  background-color: rgba(0, 15, 8, 0.32);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.mobile-actions button span {
+  font-size: 1rem;
+  white-space: normal;
+  line-height: 1.25;
+}
+
+/* ── Footer row (lang toggle) ── */
+.mobile-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.mobile-footer .lang-toggle {
+  margin-top: 0;
+}
+
+/* ── Mobile blog/games wrapper — transparent so markdownBody is the only card ── */
+.mobile-content-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  border-radius: 0;
+}
+

@@ -29,3 +29,15 @@
   border-color: #43ffa1;
 }
 
+@media (max-width: 1024px) {
+  .button {
+    margin-top: 0;
+    padding: 10px 12px;
+    width: 100%;
+    gap: 8px;
+    box-shadow: 0 2px 6px #00000066;
+    justify-content: center;
+    border-radius: 12px;
+  }
+}
+

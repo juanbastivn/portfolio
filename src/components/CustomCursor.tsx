@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './CustomCursor.module.css'
 
+const hasFineMouse = typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+
 interface Ripple {
   id: number
   x: number
@@ -54,6 +56,8 @@ function CustomCursor() {
       cancelAnimationFrame(raf)
     }
   }, [])
+
+  if (!hasFineMouse) return null
 
   return (
     <>

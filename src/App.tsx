@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useSyncExternalStore } from 'react'
 import XMBWaveBackground from './components/XMBWaveBackground'
 import SectionButton from './components/SectionButton'
 import iconFolder from './assets/icon_folder.png'
@@ -8,7 +8,7 @@ import iconGame from './assets/icon_game.png'
 import iconCircle from './assets/icon_circle.png'
 import profilePic from './assets/profile_pic.jpg'
 
-import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv, TbClock, TbDeviceGamepad } from "react-icons/tb";
+import { TbHome, TbBrandLinkedin, TbBrandGithub, TbFileCv, TbClock, TbDeviceGamepad, TbMail } from "react-icons/tb";
 
 import SmallCardButton from './components/SmallCardButton'
 import LargeCardButton from './components/LargeCardButton'
@@ -18,6 +18,24 @@ import GamesView from './components/GamesView'
 import CustomCursor from './components/CustomCursor'
 import cvPdf from './assets/cv_es.pdf'
 import './App.css'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Mobile detection hook
+// ─────────────────────────────────────────────────────────────────────────────
+const MOBILE_BREAKPOINT = 1024
+const mobileQuery = typeof window !== 'undefined'
+  ? window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
+  : null
+
+function subscribeMobile(cb: () => void) {
+  mobileQuery?.addEventListener('change', cb)
+  return () => mobileQuery?.removeEventListener('change', cb)
+}
+function getIsMobile() { return mobileQuery?.matches ?? false }
+
+function useIsMobile() {
+  return useSyncExternalStore(subscribeMobile, getIsMobile, () => false)
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // XMB Wave Background — edit these values to customise the animation.
@@ -50,17 +68,19 @@ const TRANSLATIONS: Record<Lang, {
   es: {
     welcome: 'Bienvenido', score: 'Puntaje', aboutTitle: 'Sobre mí',
     aboutText: 'Ingeniero Civil en Computación (U. de Chile), desarrollador Fullstack especializado en arquitectura de servicios en producción. Diseño e implemento sistemas completos — desde la base de datos hasta la app móvil o web — con productos activos en App Store y Google Play. Experiencia liderando equipos técnicos y tomando decisiones de arquitectura de extremo a extremo.',
-    home: 'Inicio', inDev: 'Sección en desarrollo...', backBtn: '← Volver', games: 'Juegos',
+    home: 'Inicio', inDev: 'En desarrollo', backBtn: '← Volver', games: 'Juegos',
   },
   en: {
     welcome: 'Welcome', score: 'Score', aboutTitle: 'About me',
     aboutText: 'Computer Science Engineer (Universidad de Chile), Fullstack developer focused on building and shipping production-ready services. I design complete systems end-to-end — from database to mobile app or web — with active products on the App Store and Google Play. Experienced in leading technical teams and making architecture decisions across the full stack.',
-    home: 'Home', inDev: 'In development...', backBtn: '← Back', games: 'Games',
+    home: 'Home', inDev: 'In development', backBtn: '← Back', games: 'Games',
   },
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
 function App() {
+  const isMobile = useIsMobile()
+
   const [currentTime, setCurrentTime] = useState(() =>
     new Date().toLocaleTimeString('en-GB', { hour12: false })
   );
@@ -70,12 +90,23 @@ function App() {
   const [lang, setLang] = useState<Lang>('es')
   const t = TRANSLATIONS[lang]
 
+  // On mobile, redirect games view to home (no games on mobile)
+  useEffect(() => {
+    if (isMobile && view === 'games') setView('home')
+  }, [isMobile, view])
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString('es-CL', { hour12: false }));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const langToggle = (
+    <button className="lang-toggle glow-border" onClick={() => setLang(l => l === 'es' ? 'en' : 'es')}>
+      {lang === 'es' ? 'EN' : 'ES'}
+    </button>
+  )
 
   return (
     <>
@@ -87,64 +118,111 @@ function App() {
         lightMode={LIGHT_MODE}
       />
 
-      <div className="content">
-        <div className="card left-section">
-          
-          <img className='profile-pic glow-border' src={profilePic} alt="Juan Bastián Espinoza Caimanque - Ingeniero Civil en Computación" />
-          <p className='text-l'>Juan-Bastián</p>
-
-          <SectionButton icon={TbHome} label={t.home} onClick={() => setView('home')} />
-          <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
-          <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
-          <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
-
-          <div className="separator" />
-
-          <div className="small-card-buttons">
-            <SmallCardButton image={iconMail} onClick={() => window.open(`mailto:${LINKS.email}`)} />
-            <SmallCardButton image={iconGame} onClick={() => setView('games')} />
-          </div>
-          <button className="lang-toggle glow-border" onClick={() => setLang(l => l === 'es' ? 'en' : 'es')}>
-            {lang === 'es' ? 'EN' : 'ES'}
-          </button>
-
-        </div>
-
-        <div className="card right-section">
-          {view === 'home' ? (
-            <div key="home" className="home-view">
-              <div className="card-header">
-                <RoundedCard label={currentTime} icon={TbClock} />
-                <p className='text-xl'>{t.welcome}</p>
-                <RoundedCard label={`${t.score}: ${gameScore}`} icon={TbDeviceGamepad} />
-              </div>
-
-              <div className="separator" />
-
-              <div className="card-text-content">
-                <img className='card-image' src={iconCircle} alt="Card Image" />
-                <div className='text-container glow-border'>
-                  <p className='text-e'>{t.aboutTitle}</p>
-                  <p className='text-m'>{t.aboutText}</p>
-                </div>
-              </div>
-
-              <div className="separator" />
-
-              <div className="large-card-buttons">
-                <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
-                <LargeCardButton image={iconFolder} label={t.inDev} onClick={() => null} />
-              </div>
-              <div className="separator" />
-
+      {isMobile ? (
+        /* ════════════════════════════════════════════════════════════════════ */
+        /*  Mobile / Tablet layout                                            */
+        /* ════════════════════════════════════════════════════════════════════ */
+        view !== 'home' ? (
+          <div className="mobile-root">
+            <div className="card mobile-content-section">
+              <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} lang={lang} />
             </div>
-          ) : view === 'games' ? (
-            <GamesView onBack={() => setView('home')} onScore={setGameScore} initialScore={gameScore} lang={lang} />
-          ) : (
-            <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} lang={lang} />
-          )}
+          </div>
+        ) : (
+          <div className="mobile-root">
+            {/* Profile */}
+            <div className="mobile-profile">
+              <img className='profile-pic glow-border' src={profilePic} alt="Juan Bastián Espinoza Caimanque" />
+              <p className='text-l'>Juan-Bastián</p>
+            </div>
+
+            {/* Nav buttons */}
+            <div className="mobile-nav">
+              <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
+              <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
+              <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
+              <SectionButton icon={TbMail} label="Email" onClick={() => window.open(`mailto:${LINKS.email}`)} />
+            </div>
+
+            {/* About */}
+            <div className="mobile-about glow-border">
+              <p className='text-e'>{t.aboutTitle}</p>
+              <p className='text-m'>{t.aboutText}</p>
+            </div>
+
+            {/* Actions */}
+            <div className="mobile-actions">
+              <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
+              <LargeCardButton image={iconFolder} label={t.inDev} onClick={() => null} />
+            </div>
+
+            {/* Footer */}
+            <div className="mobile-footer">
+              {langToggle}
+            </div>
+          </div>
+        )
+      ) : (
+        /* ════════════════════════════════════════════════════════════════════ */
+        /*  Desktop layout                                                    */
+        /* ════════════════════════════════════════════════════════════════════ */
+        <div className="content">
+          <div className="card left-section">
+
+            <img className='profile-pic glow-border' src={profilePic} alt="Juan Bastián Espinoza Caimanque - Ingeniero Civil en Computación" />
+            <p className='text-l'>Juan-Bastián</p>
+
+            <SectionButton icon={TbHome} label={t.home} onClick={() => setView('home')} />
+            <SectionButton icon={TbBrandLinkedin} label="LinkedIn" href={LINKS.linkedin} />
+            <SectionButton icon={TbBrandGithub} label="GitHub" href={LINKS.github} />
+            <SectionButton icon={TbFileCv} label="CV" href={LINKS.cv} />
+
+            <div className="separator" />
+
+            <div className="small-card-buttons">
+              <SmallCardButton image={iconMail} onClick={() => window.open(`mailto:${LINKS.email}`)} />
+              <SmallCardButton image={iconGame} onClick={() => setView('games')} />
+            </div>
+            {langToggle}
+
+          </div>
+
+          <div className="card right-section">
+            {view === 'home' ? (
+              <div key="home" className="home-view">
+                <div className="card-header">
+                  <RoundedCard label={currentTime} icon={TbClock} />
+                  <p className='text-xl'>{t.welcome}</p>
+                  <RoundedCard label={`${t.score}: ${gameScore}`} icon={TbDeviceGamepad} />
+                </div>
+
+                <div className="separator" />
+
+                <div className="card-text-content">
+                  <img className='card-image' src={iconCircle} alt="Card Image" />
+                  <div className='text-container glow-border'>
+                    <p className='text-e'>{t.aboutTitle}</p>
+                    <p className='text-m'>{t.aboutText}</p>
+                  </div>
+                </div>
+
+                <div className="separator" />
+
+                <div className="large-card-buttons">
+                  <LargeCardButton image={iconSw} label="Software" onClick={() => setView('software')} />
+                  <LargeCardButton image={iconFolder} label={t.inDev} onClick={() => null} />
+                </div>
+                <div className="separator" />
+
+              </div>
+            ) : view === 'games' ? (
+              <GamesView onBack={() => setView('home')} onScore={setGameScore} initialScore={gameScore} lang={lang} />
+            ) : (
+              <BlogView key={view} section={view as 'software' | 'media'} onBack={() => setView('home')} lang={lang} />
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

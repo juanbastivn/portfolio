@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Exo 2', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -73,5 +73,17 @@ p {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media (max-width: 1024px) {
+  body {
+    overflow: auto;
+  }
+  :root {
+    cursor: auto;
+  }
+  *, *::before, *::after {
+    cursor: auto !important;
   }
 }

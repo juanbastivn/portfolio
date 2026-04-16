@@ -49,6 +49,7 @@ uniform bool  uLightMode;
 uniform vec3  uWaveColor;
 uniform float uSpeedMultiplier;
 uniform float uBrightnessCap;
+uniform float uScaleFactor;
 
 const float WAVE_WIDTH_FACTOR = 1.5;
 
@@ -76,7 +77,7 @@ vec3 calcSine(
     if (deltaY < 0.0) { distanceVal *= 4.0; }
   }
 
-  float smoothVal = smoothstep(lineWidth * WAVE_WIDTH_FACTOR, 0.0, distanceVal);
+  float smoothVal = smoothstep(lineWidth * WAVE_WIDTH_FACTOR * uScaleFactor, 0.0, distanceVal);
   float scaleVal  = pow(smoothVal, sharpness);
   return min(baseColor * scaleVal, baseColor);
 }
@@ -116,7 +117,7 @@ export default function XMBWaveBackground({
   lightMode       = false,
   radialIntensity = 0.2,
   radialRadius    = 0.8,
-  brightnessCap   = 0.6,
+  brightnessCap   = 0.7,
 }: XMBWaveConfig) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef    = useRef<number>(0)
@@ -175,6 +176,7 @@ export default function XMBWaveBackground({
     const colorLoc   = gl.getUniformLocation(program, 'uWaveColor')
     const speedLoc   = gl.getUniformLocation(program, 'uSpeedMultiplier')
     const capLoc     = gl.getUniformLocation(program, 'uBrightnessCap')
+    const scaleLoc   = gl.getUniformLocation(program, 'uScaleFactor')
 
     // ── Full-screen quad ────────────────────────────────────────────────────
     const buf = gl.createBuffer()
@@ -204,6 +206,7 @@ export default function XMBWaveBackground({
       gl.clear(gl.COLOR_BUFFER_BIT)
       gl.uniform1f(timeLoc, ms * 0.001)
       gl.uniform2f(resLoc, canvas.width, canvas.height)
+      gl.uniform1f(scaleLoc, Math.max(1.0, 1440.0 / canvas.height))
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
       rafRef.current = requestAnimationFrame(render)
     }
