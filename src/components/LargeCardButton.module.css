@@ -2,9 +2,8 @@
 .button {
   display: flex;
   backdrop-filter: blur(10px);
-  background-color: #ffffff11;
-  box-shadow: 0 5px 10px #00000099, 0 0 8px #ffffff99;
-  border: 2px solid #ffffff99;
+  background-color: rgba(0, 15, 8, 0.32);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   justify-content: center;
   text-align: center;
@@ -16,7 +15,7 @@
 }
 
 .button:hover {
-  background-color: #ffffff22;
+  background-color: rgba(0, 15, 8, 0.45);
   color: #75ffba;
   border-color: #75ffba;
   box-shadow: 0 0 20px #75ffba99;
@@ -28,8 +27,8 @@
 }
 
 .icon {
-  width: clamp(96px, 10vw, 140px);
-  height: clamp(96px, 10vw, 140px);
+  width: clamp(80px, 8vw, 112px);
+  height: clamp(80px, 8vw, 112px);
   align-self: center;
 }
 

@@ -2,8 +2,8 @@
 .button {
   display: flex;
   backdrop-filter: blur(10px);
-  background-color: #ffffff11;
-  box-shadow: 0 5px 10px #00000099;
+  background-color: rgba(0, 15, 8, 0.32);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
@@ -14,7 +14,7 @@
 }
 
 .button:hover {
-  background-color: #ffffff22;
+  background-color: rgba(0, 15, 8, 0.5);
   border-color: #75ffba;
   box-shadow: 0 0 16px #75ffba99;
 }
