@@ -5,6 +5,11 @@
   background-color: #ffffff11;
   box-shadow: 0 5px 10px #00000099;
   justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  width: clamp(72px, 6vw, 96px);
+  height: clamp(72px, 6vw, 96px);
+  flex-shrink: 0;
   transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
@@ -15,7 +20,7 @@
 }
 
 .icon {
-  width: 72px;
-  height: 72px;
+  width: clamp(44px, 4vw, 60px);
+  height: clamp(44px, 4vw, 60px);
 }
 

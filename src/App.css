@@ -1,19 +1,21 @@
 #root {
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  padding: clamp(16px, 2.5vw, 40px);
 }
 
 .content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: clamp(16px, 2vw, 32px);
   width: 100%;
-  max-width: 1600px;
+  max-width: 1500px;
+  align-items: stretch;
 }
 
 .card {
@@ -21,21 +23,25 @@
   border-radius: 16px;
   background-color: #ffffff22;
   box-shadow: inset 0 0 20px #ffffff99;
-  padding: 2rem;
+  padding: clamp(16px, 1.8vw, 32px);
 }
 
 .left-section {
-  margin-right: 2rem;
-  width: 20%;
-  height: 800px;
+  margin-right: 0;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .right-section {
-  width: 80%;
-  height: 800px;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
   justify-content: start;
   display: flex;
   flex-direction: column;
@@ -67,7 +73,7 @@
 }
 
 .text-xl {
-  font-size: 3.2rem;
+  font-size: clamp(1.8rem, 3.2vw, 3.2rem);
   color: #ffffffcc;
   font-weight: 500;
   text-shadow: 0 5px 5px #00000099;
@@ -89,8 +95,8 @@
 }
 
 .profile-pic {
-  width: 160px;
-  height: 160px;
+  width: clamp(120px, 11vw, 160px);
+  height: clamp(120px, 11vw, 160px);
   align-self: center;
   border-radius: 50%;
   object-fit: cover;
@@ -119,7 +125,7 @@
   background-color: #ffffff44;
   box-shadow: 0 0 8px #ffffff99;
   align-self: center;
-  margin: 2rem 0 2rem 0;
+  margin: clamp(14px, 1.8vw, 32px) 0;
 }
 
 .card-text-content {
@@ -127,12 +133,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: clamp(16px, 2vw, 32px);
 }
 
 .card-image {
-  width: 160px;
-  height: 160px;
+  width: clamp(110px, 11vw, 160px);
+  height: clamp(110px, 11vw, 160px);
+  flex-shrink: 0;
 }
 
 .text-container {
