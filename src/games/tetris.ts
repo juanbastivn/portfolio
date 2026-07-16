@@ -1,4 +1,6 @@
 // src/games/tetris.ts
+import type { GameRuntimeOptions } from './types'
+
 const BLOCK = 30
 const COLS  = 10
 const ROWS  = 20
@@ -48,13 +50,15 @@ function checkCollision(piece: { shape: number[][], row: number, col: number }, 
 export function run(
   canvas: HTMLCanvasElement,
   _ctx: CanvasRenderingContext2D,
-  onScore?: (score: number) => void
+  options: GameRuntimeOptions,
 ): () => void {
   canvas.width  = W
   canvas.height = H
   const ctx = canvas.getContext('2d')!
   let running = true
   let gameOver = false
+  let paused = false
+  let animationFrame = 0
 
   const board: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0))
 
@@ -63,6 +67,9 @@ export function run(
   let dropCounter = 0
   const dropInterval = 700
   let lastTime = 0
+
+  options.onScore(0)
+  options.onStatus('playing')
 
   const clearLines = () => {
     let linesCleared = 0
@@ -76,27 +83,34 @@ export function run(
     }
     if (linesCleared > 0) {
       score += ([0, 100, 300, 500, 800][linesCleared] ?? 800)
-      onScore?.(score)
+      options.onScore(score)
     }
   }
 
   const spawnPiece = () => {
     piece = { shape: pieces[Math.floor(Math.random() * pieces.length)], row: 0, col: 3 }
-    if (checkCollision(piece, board)) gameOver = true
+    if (checkCollision(piece, board)) {
+      gameOver = true
+      options.onStatus('game-over')
+    }
+  }
+
+  const lockPiece = () => {
+    piece.shape.forEach((row, r) => row.forEach((cell, c) => {
+      if (cell) board[piece.row + r][piece.col + c] = 1
+    }))
+    clearLines()
+    spawnPiece()
   }
 
   const update = (deltaTime: number) => {
-    if (gameOver) return
+    if (gameOver || paused) return
     dropCounter += deltaTime
     if (dropCounter > dropInterval) {
       piece.row++
       if (checkCollision(piece, board)) {
         piece.row--
-        piece.shape.forEach((row, r) => row.forEach((cell, c) => {
-          if (cell) board[piece.row + r][piece.col + c] = 1
-        }))
-        clearLines()
-        spawnPiece()
+        lockPiece()
       }
       dropCounter = 0
     }
@@ -138,23 +152,46 @@ export function run(
       ctx.shadowBlur = 0
       ctx.fillStyle = 'rgba(255,255,255,0.8)'
       ctx.font = '1rem monospace'
-      ctx.fillText(`Puntaje: ${score}`, W / 2, H / 2 + 16)
+      ctx.fillText(`${options.lang === 'en' ? 'Score' : 'Puntaje'}: ${score}`, W / 2, H / 2 + 16)
       ctx.fillStyle = 'rgba(117, 255, 186, 0.6)'
       ctx.font = '0.85rem monospace'
-      ctx.fillText('Presiona R para reiniciar', W / 2, H / 2 + 44)
+      ctx.fillText(options.lang === 'en' ? 'Press R to restart' : 'Presiona R para reiniciar', W / 2, H / 2 + 44)
+    } else if (paused) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.58)'
+      ctx.fillRect(0, 0, W, H)
+      ctx.textAlign = 'center'
+      ctx.fillStyle = '#ffd166'
+      ctx.font = 'bold 2rem monospace'
+      ctx.fillText(options.lang === 'en' ? 'PAUSED' : 'PAUSA', W / 2, H / 2)
     }
   }
 
+  const restart = () => {
+    board.forEach(row => row.fill(0))
+    score = 0
+    gameOver = false
+    paused = false
+    dropCounter = 0
+    options.onScore(0)
+    options.onStatus('playing')
+    spawnPiece()
+  }
+
   const onKey = (e: KeyboardEvent) => {
+    if (['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', ' '].includes(e.key)) {
+      e.preventDefault()
+    }
     if (e.key === 'r' || e.key === 'R') {
-      board.forEach(row => row.fill(0))
-      score = 0
-      gameOver = false
-      onScore?.(0)
-      spawnPiece()
+      restart()
       return
     }
-    if (gameOver) return
+    if (e.key === 'p' || e.key === 'P') {
+      if (gameOver) return
+      paused = !paused
+      options.onStatus(paused ? 'paused' : 'playing')
+      return
+    }
+    if (gameOver || paused) return
     if (e.key === 'ArrowDown') {
       piece.row++
       if (checkCollision(piece, board)) piece.row--
@@ -169,9 +206,24 @@ export function run(
       const oldShape = piece.shape
       piece.shape = rotated
       if (checkCollision(piece, board)) piece.shape = oldShape
+    } else if (e.key === ' ') {
+      do {
+        piece.row++
+      } while (!checkCollision(piece, board))
+      piece.row--
+      lockPiece()
+      dropCounter = 0
     }
   }
   document.addEventListener('keydown', onKey)
+
+  const onVisibilityChange = () => {
+    if (document.hidden && !gameOver && !paused) {
+      paused = true
+      options.onStatus('paused')
+    }
+  }
+  document.addEventListener('visibilitychange', onVisibilityChange)
 
   const loop = (timestamp: number) => {
     if (!running) return
@@ -179,9 +231,14 @@ export function run(
     lastTime = timestamp
     update(deltaTime)
     draw()
-    requestAnimationFrame(loop)
+    animationFrame = requestAnimationFrame(loop)
   }
-  requestAnimationFrame(loop)
+  animationFrame = requestAnimationFrame(loop)
 
-  return () => { running = false; document.removeEventListener('keydown', onKey) }
+  return () => {
+    running = false
+    cancelAnimationFrame(animationFrame)
+    document.removeEventListener('keydown', onKey)
+    document.removeEventListener('visibilitychange', onVisibilityChange)
+  }
 }
