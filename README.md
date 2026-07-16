@@ -1,79 +1,47 @@
-# React + TypeScript + Vite
+# Portfolio de Juan-Bastián
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio personal construido con React, TypeScript y Vite. Se publica en [jbastian.cl](https://jbastian.cl) mediante GitHub Pages.
 
-Currently, two official plugins are available:
+## Desarrollo local
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Antes de enviar cambios de código:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run lint
+npm run build
 ```
 
-To deploy:
+## Editor local de contenido
 
+El portfolio incluye un editor visual local basado en Decap CMS. No necesita OAuth, Netlify, tokens ni otra cuenta, y sólo escucha conexiones desde el propio computador.
+
+Inícialo desde la raíz del repositorio:
+
+```bash
+npm run content
 ```
-npm run deploy
+
+Después abre [http://127.0.0.1:4174/admin/](http://127.0.0.1:4174/admin/). Desde allí puedes editar las secciones y subir imágenes. Termina el proceso con `Ctrl+C`.
+
+Los textos se guardan en `public/content/*.md` y las imágenes en `public/uploads/`. El editor sólo modifica archivos locales; revisa los cambios con `git diff` antes de publicarlos.
+
+Para validar, crear el commit y hacer push usando un único comando:
+
+```bash
+npm run content:publish -- "describe aquí la actualización"
 ```
+
+Este comando sólo publica `public/content` y `public/uploads`. Por seguridad se detiene si detecta cambios de código pendientes.
+
+Cada sección tiene una URL compartible (`#software`, `#printing3d`, `#media` y `#games`) y respeta los botones atrás/adelante del navegador.
+
+## Publicación
+
+Cada `push` a `main` dispara `.github/workflows/deploy.yml`. En la configuración del repositorio, `Settings → Pages → Build and deployment → Source` debe estar en **GitHub Actions**.
+
+El editor no forma parte de `dist`, por lo que `/admin` no se publica en `jbastian.cl`.

@@ -1,0 +1,31 @@
+backend:
+  name: proxy
+  proxy_url: http://127.0.0.1:8081/api/v1
+  branch: main
+
+locale: es
+site_url: https://jbastian.cl
+display_url: https://jbastian.cl
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: secciones
+    label: Secciones del portfolio
+    files:
+      - name: software
+        label: Software
+        file: public/content/software.md
+        fields:
+          - { label: Contenido, name: body, widget: markdown }
+      - name: printing3d
+        label: Impresión 3D
+        file: public/content/printing3d.md
+        fields:
+          - { label: Contenido, name: body, widget: markdown }
+      - name: media
+        label: Media
+        file: public/content/media.md
+        fields:
+          - { label: Contenido, name: body, widget: markdown }

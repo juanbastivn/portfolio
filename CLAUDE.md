@@ -16,14 +16,14 @@ Personal portfolio website for Juan-Bastián Espinoza Caimanque, deployed to htt
 
 ## Architecture
 
-**Single-page app with view-based navigation** — no router. `App.tsx` manages a `view` state (`'home' | 'software' | 'media' | 'games'`) that switches between views inline.
+**Single-page app with view-based navigation** — no router. `App.tsx` manages a typed `view` state (`'home' | 'software' | 'printing3d' | 'media' | 'games'`) that switches between views inline.
 
 ### Key layers
 
 - **XMBWaveBackground** — Full-screen WebGL animated wave background (PS3 XMB style). Uses raw WebGL with custom vertex/fragment shaders. Configured via props in `App.tsx` constants (`WAVE_COLOR`, `SPEED_MULTIPLIER`, etc.).
-- **BlogView** — Renders markdown content from `src/content/*.md` files using `react-markdown` with GFM and raw HTML support. Images in markdown use a virtual `/assets/` path that maps to Vite-imported assets via an `assetMap` in `BlogView.tsx`. To add a new image to blog content: import it in `BlogView.tsx` and add it to `assetMap`.
+- **BlogView** — Fetches markdown content from `public/content/*.md` at runtime and renders it with `react-markdown`, GFM, and raw HTML support. New editorial images live in `public/uploads/` and require no React import. Legacy `/assets/` image references are resolved automatically through a Vite glob.
 - **GamesView** — Canvas-based game engine. Games implement a `run(canvas, ctx, onScore) => cleanup` interface. New games are added to the `GAMES` array in `GamesView.tsx`. Currently has Tetris (`src/games/tetris.ts`).
-- **CustomCursor** — Custom cursor replaces the native cursor (CSS `cursor: none` is set globally in `index.css`).
+- **Local content editor** — Decap CMS lives in `editor/admin/` and is started with `npm run content`. A filesystem proxy bound to localhost edits Markdown sections and uploads media into `public/uploads/`. The editor is not included in production builds.
 
 ### Bilingual support
 
@@ -41,4 +41,4 @@ Components use CSS Modules (`*.module.css`) for scoped styles. Global styles are
 
 ### Deployment
 
-Uses `gh-pages` package to deploy `dist/` to GitHub Pages. The `base` in `vite.config.ts` is set to `"/"` (custom domain).
+GitHub Actions builds and deploys `dist/` to GitHub Pages on every push to `main`. The `base` in `vite.config.ts` is set to `"/"` (custom domain).
