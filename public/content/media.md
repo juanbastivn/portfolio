@@ -1,5 +1,3 @@
-# Media
-
 Colección de trabajos creativos — producción de video, motion graphics, fotografía y diseño de sonido.
 
 ---

@@ -1,40 +1,32 @@
 // BlogView.tsx
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import styles from './BlogView.module.css'
-
-// ── Asset map ─────────────────────────────────────────────────────────────────
-// To use an image in a .md file write: ![alt](/assets/icon_name.png)
-// Then add that same key and its import below.
-import swBaudata1   from '../assets/sw_baudata1.png'
-import swBaudata2   from '../assets/sw_baudata2.png'
-import swNeuronat from '../assets/sw_neuronat.png'
-import swDgenius1   from '../assets/sw_dgenius1.png'
-import swDgenius2  from '../assets/sw_dgenius2.png'
-import swDgenius3  from '../assets/sw_dgenius3.png'
-import swBaches   from '../assets/sw_baches.png'
-
 import FadeImage from './FadeImage'
-import softwareMd from '../content/software.md?raw'
-import mediaMd from '../content/media.md?raw'
+import type { ContentSection, Lang } from '../types'
 
-const assetMap: Record<string, string> = {
-  '/assets/sw_baudata1.png':   swBaudata1,
-  '/assets/sw_baudata2.png':   swBaudata2,
-  '/assets/sw_neuronat.png': swNeuronat,
-  '/assets/sw_dgenius1.png':   swDgenius1,
-  '/assets/sw_dgenius2.png':   swDgenius2,
-  '/assets/sw_dgenius3.png':   swDgenius3,
-  '/assets/sw_baches.png':   swBaches,
-}
-// ─────────────────────────────────────────────────────────────────────────────
+const legacyAssetImports = import.meta.glob<string>(['../assets/sw_*', '../assets/icon_media.png'], {
+  eager: true,
+  import: 'default',
+  query: '?url',
+})
 
-const mdFiles: Record<string, string> = {
-  software: softwareMd,
-  media: mediaMd,
+const legacyAssets = Object.fromEntries(
+  Object.entries(legacyAssetImports).map(([path, url]) => [
+    `/assets/${path.split('/').at(-1)}`,
+    url,
+  ]),
+)
+
+const SECTION_TITLES: Record<ContentSection, Record<Lang, string>> = {
+  software: { es: 'Software', en: 'Software' },
+  printing3d: { es: 'Impresión 3D', en: '3D printing' },
+  media: { es: 'Media', en: 'Media' },
 }
+
+const stripFrontMatter = (markdown: string) => markdown.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '')
 
 const mdComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => <h1 className={styles.h1}>{children}</h1>,
@@ -50,7 +42,7 @@ const mdComponents = {
   ol: ({ children }: { children?: React.ReactNode }) => <ol className={styles.ol}>{children}</ol>,
   li: ({ children }: { children?: React.ReactNode }) => <li className={styles.li}>{children}</li>,
   img: ({ src, alt }: { src?: string; alt?: string }) => (
-    <FadeImage className={styles.img} src={assetMap[src ?? ''] ?? src ?? ''} alt={alt ?? ''} />
+    <FadeImage className={styles.img} src={legacyAssets[src ?? ''] ?? src ?? ''} alt={alt ?? ''} />
   ),
   blockquote: ({ children }: { children?: React.ReactNode }) => (
     <blockquote className={styles.blockquote}>{children}</blockquote>
@@ -80,8 +72,32 @@ const mdComponents = {
   ),
 }
 
-function BlogView({ section, onBack, lang = 'es' }: { section: 'software' | 'media'; onBack: () => void; lang?: 'es' | 'en' }) {
-  const content = mdFiles[section] ?? ''
+function BlogView({ section, onBack, lang = 'es' }: { section: ContentSection; onBack: () => void; lang?: Lang }) {
+  const [content, setContent] = useState('')
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    fetch(`${import.meta.env.BASE_URL}content/${section}.md`, {
+      cache: 'no-cache',
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.text()
+      })
+      .then((markdown) => {
+        setContent(stripFrontMatter(markdown))
+        setStatus('ready')
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setStatus('error')
+      })
+
+    return () => controller.abort()
+  }, [section])
 
   return (
     <div className={styles.blog}>
@@ -89,20 +105,28 @@ function BlogView({ section, onBack, lang = 'es' }: { section: 'software' | 'med
         <button className={`glow-border ${styles.backBtn}`} onClick={onBack}>
           {lang === 'en' ? '← Back' : '← Volver'}
         </button>
-        <p className={`text-xl ${styles.headerTitle}`}>
-          {section === 'software' ? 'Software' : 'Media'}
-        </p>
+        <h1 className={`text-xl ${styles.headerTitle}`}>
+          {SECTION_TITLES[section][lang]}
+        </h1>
         <div className={styles.headerSpacer} />
       </div>
       <div className={styles.separator} />
       <div className={styles.markdownBody}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw]}
-        components={mdComponents}
-      >
-        {content}
-      </ReactMarkdown>
+        {status === 'loading' ? (
+          <p className={styles.status}>{lang === 'en' ? 'Loading…' : 'Cargando…'}</p>
+        ) : status === 'error' ? (
+          <p className={styles.status} role="alert">
+            {lang === 'en' ? 'This content could not be loaded.' : 'No se pudo cargar este contenido.'}
+          </p>
+        ) : (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+            components={mdComponents}
+          >
+            {content}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   )

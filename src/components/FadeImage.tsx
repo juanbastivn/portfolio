@@ -14,7 +14,10 @@ function FadeImage({ src, alt, className }: FadeImageProps) {
       src={src}
       alt={alt}
       className={className}
+      loading="lazy"
+      decoding="async"
       onLoad={() => setLoaded(true)}
+      onError={() => setLoaded(true)}
       style={{
         opacity: loaded ? 1 : 0,
         transition: 'opacity 0.5s ease-in-out',

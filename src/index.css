@@ -12,11 +12,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  cursor: none;
-}
-
-*, *::before, *::after {
-  cursor: none !important;
 }
 
 a {
@@ -74,14 +69,5 @@ p {
   }
   button {
     background-color: #f9f9f9;
-  }
-}
-
-@media (max-width: 1024px) {
-  :root {
-    cursor: auto;
-  }
-  *, *::before, *::after {
-    cursor: auto !important;
   }
 }

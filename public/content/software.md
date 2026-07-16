@@ -88,4 +88,3 @@ Desarrollé una aplicación web en **React** desplegada en producción con **Net
 | Infraestructura | AWS (EC2, S3, RDS), Linux, Git |
 | Hardware & IoT | Bluetooth LE, Raspberry Pi, Selenium |
 | Otros | Python, Power BI, SCRUM/Agile, Inglés C1 |
-

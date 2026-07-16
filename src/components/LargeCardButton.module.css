@@ -14,6 +14,12 @@
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
+.button:focus-visible {
+  border-color: #75ffba;
+  outline: 3px solid #75ffba55;
+  outline-offset: 3px;
+}
+
 .button:hover {
   background-color: rgba(0, 15, 8, 0.45);
   color: #75ffba;
@@ -48,4 +54,3 @@
     height: 64px;
   }
 }
-

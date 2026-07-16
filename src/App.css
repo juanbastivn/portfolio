@@ -51,6 +51,11 @@
   overflow: hidden;
 }
 
+.view-loading {
+  margin: auto;
+  color: #ffffffaa;
+}
+
 .glow-border {
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 10px rgba(255, 255, 255, 0.08);
@@ -92,10 +97,13 @@
 }
 
 .large-card-buttons {
-  display: flex;
-  flex-direction: row;
-  gap: calc(2rem);
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 32px);
+}
+
+.large-card-buttons > button {
+  width: 100%;
 }
 
 .profile-pic {
@@ -127,7 +135,8 @@
   justify-content: space-between;
 }
 
-.card-header p {
+.card-header p,
+.card-header h1 {
   margin: 0;
 }
 
@@ -222,6 +231,14 @@
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-view > *,
+  .mobile-root > * {
+    opacity: 1;
+    animation: none;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════ */
@@ -324,6 +341,16 @@
   gap: 12px;
 }
 
+.mobile-actions > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .large-card-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
 .mobile-actions button {
   background-color: rgba(0, 15, 8, 0.32);
 }
@@ -358,4 +385,3 @@
   backdrop-filter: none;
   border-radius: 0;
 }
-
